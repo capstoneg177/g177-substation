@@ -1,1 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G177 Substation Design Project</title>
 
+  <style>
+    :root {
+      --navy: #06264a;
+      --navy-dark: #03172f;
+      --blue: #2f80ed;
+      --blue-light: #eaf3ff;
+      --gray: #f4f7fb;
+      --text: #14213d;
+      --muted: #5f6f89;
+      --white: #ffffff;
+      --border: #dce5f2;
+      --shadow: 0 12px 30px rgba(3, 23, 47, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--navy-dark);
+      color: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.18);
+    }
+
+    .navbar {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .brand small {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #bcd7ff;
+      letter-spacing: 0.01em;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    nav a {
+      color: #e8f1ff;
+      opacity: 0.9;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    nav a:hover,
+    nav a.active {
+      opacity: 1;
+      border-color: var(--blue);
+    }
+
+    .hero {
+      min-height: 620px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(3, 23, 47, 0.96) 0%, rgba(6, 38, 74, 0.86) 46%, rgba(6, 38, 74, 0.42) 100%),
+        url("assets/hero-substation.jpg") center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 660px;
+      padding: 80px 0;
+    }
+
+    .eyebrow {
+      color: #9fc7ff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.8rem;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.8rem);
+      line-height: 0.98;
+      margin-bottom: 24px;
+      letter-spacing: -0.05em;
+    }
+
+    .hero h2 {
+      color: #bcd7ff;
+      font-size: clamp(1.15rem, 2vw, 1.5rem);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      max-width: 620px;
+      font-size: 1.05rem;
+      color: #eef5ff;
+      margin-bottom: 32px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 54px;
+      padding: 0 24px;
+      border-radius: 8px;
+      font-weight: 800;
+      transition: 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      box-shadow: 0 10px 24px rgba(47, 128, 237, 0.28);
+    }
+
+    .btn-secondary {
+      border-color: rgba(255, 255, 255, 0.7);
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    section {
+      padding: 72px 0;
+    }
+
+    .section-gray {
+      background: var(--gray);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .section-title::before {
+      content: "";
+      width: 5px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--blue);
+      display: block;
+    }
+
+    .section-title h2 {
+      color: var(--navy);
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.25fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.02rem;
+      margin-bottom: 18px;
+    }
+
+    .diagram-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .diagram-card img {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+      object-fit: contain;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .download-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      min-height: 170px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 8px 22px rgba(3, 23, 47, 0.07);
+      transition: 0.2s ease;
+    }
+
+    .download-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: #b5cef0;
+    }
+
+    .file-icon {
+      width: 46px;
+      height: 54px;
+      border-radius: 8px;
+      background: #d93434;
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .file-icon.orange {
+      background: #e87927;
+    }
+
+    .file-icon.green {
+      background: #2e8b57;
+    }
+
+    .file-icon.blue {
+      background: #2f80ed;
+    }
+
+    .download-card h3 {
+      color: var(--navy);
+      font-size: 1rem;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .download-card p {
+      color: var(--blue);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .member-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: 0 8px 22px rgba(3, 23, 47, 0.06);
+    }
+
+    .avatar {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      font-size: 1.8rem;
+      margin: 0 auto 14px;
+    }
+
+    .member-card h3 {
+      font-size: 0.95rem;
+      line-height: 1.25;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .member-card p {
+      color: var(--blue);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .professor {
+      margin-top: 28px;
+      background: var(--blue-light);
+      border: 1px solid #cfe1fb;
+      border-radius: 16px;
+      padding: 22px;
+      text-align: center;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    footer {
+      background: var(--navy-dark);
+      color: var(--white);
+      padding: 30px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      color: #d8e9ff;
+      font-size: 0.95rem;
+    }
+
+    .footer-inner strong {
+      color: var(--white);
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .overview-grid,
+      .download-grid,
+      .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 3.2rem;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container navbar">
+      <a class="brand" href="#top" aria-label="G177 Substation Design Project Home">
+        <span class="brand-mark">G</span>
+        <span>
+          G177 Substation Design Project
+          <small>Polytechnic University of Puerto Rico</small>
+        </span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <a class="active" href="#top">Home</a>
+        <a href="#overview">Overview</a>
+        <a href="#downloads">Downloads</a>
+        <a href="#team">Team</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-content">
+        <div class="eyebrow">Electrical Engineering Capstone Project</div>
+
+        <h1>G177 Substation Design Project</h1>
+
+        <h2>Polytechnic University of Puerto Rico</h2>
+
+        <p>
+          This project presents the design of a step-down substation that receives approximately
+          32.8 kV from the utility and steps the voltage down to 480 V to supply the facility loads.
+          The design includes load analysis, equipment selection, civil design, grounding and protection,
+          economic evaluation, and complete technical documentation.
+        </p>
+
+        <div class="button-row">
+          <a
+            class="btn btn-primary"
+            href="PASTE_FULL_REPORT_GOOGLE_DRIVE_LINK_HERE"
+            target="_blank"
+            rel="noopener"
+          >
+            Download Full Report
+          </a>
+
+          <a
+            class="btn btn-secondary"
+            href="PASTE_PROJECT_FILES_DRIVE_FOLDER_LINK_HERE"
+            target="_blank"
+            rel="noopener"
+          >
+            View Project Files
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="container overview-grid">
+        <div>
+          <div class="section-title">
+            <h2>Project Overview</h2>
+          </div>
+
+          <p class="lead">
+            The proposed substation reduces the utility voltage of approximately 32.8 kV to 480 V,
+            three-phase, to supply the required facility loads. The design considers reliability, safety,
+            equipment coordination, civil installation requirements, and overall cost-effectiveness.
+          </p>
+
+          <p class="lead">
+            The project documentation includes load analysis, transformer and equipment selection,
+            substation blueprint set development, grounding and protection considerations,
+            civil layout requirements, and an economic proposal.
+          </p>
+        </div>
+
+        <div class="diagram-card">
+          <img
+            src="assets/blueprint-set-preview.png"
+            alt="Substation blueprint set preview for the G177 Substation Design Project"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads" class="section-gray">
+      <div class="container">
+        <div class="section-title">
+          <h2>Downloads</h2>
+        </div>
+
+        <p class="lead">
+          Download the final project documentation, technical report, presentation files, blueprint set,
+          calculations, and supporting documents.
+        </p>
+
+        <div class="download-grid">
+          <a
+            class="download-card"
+            href="PASTE_FULL_REPORT_GOOGLE_DRIVE_LINK_HERE"
+            target="_blank"
+            rel="noopener"
+          >
+            <div>
+              <div class="file-icon">PDF</div>
+              <h3>Full Technical Report</h3>
+              <p>Google Drive PDF</p>
+            </div>
+          </a>
+
+          <a class="download-card" href="files/short-paper.pdf" download>
+            <div>
+              <div class="file-icon">PDF</div>
+              <h3>Short Paper</h3>
+              <p>PDF</p>
+            </div>
+          </a>
+
+          <a class="download-card" href="files/final-presentation.pdf" download>
+            <div>
+              <div class="file-icon orange">PPT</div>
+              <h3>Final Presentation</h3>
+              <p>PDF/PPT</p>
+            </div>
+          </a>
+
+          <a class="download-card" href="files/substation-blueprint-set.pdf" download>
+            <div>
+              <div class="file-icon">PDF</div>
+              <h3>Substation Blueprint Set</h3>
+              <p>PDF</p>
+            </div>
+          </a>
+
+          <a class="download-card" href="files/load-analysis.xlsx" download>
+            <div>
+              <div class="file-icon green">XLS</div>
+              <h3>Load Analysis</h3>
+              <p>Excel</p>
+            </div>
+          </a>
+
+          <a class="download-card" href="files/economic-proposal.pdf" download>
+            <div>
+              <div class="file-icon blue">PDF</div>
+              <h3>Economic Proposal</h3>
+              <p>PDF</p>
+            </div>
+          </a>
+
+          <a
+            class="download-card"
+            href="PASTE_PROJECT_FILES_DRIVE_FOLDER_LINK_HERE"
+            target="_blank"
+            rel="noopener"
+          >
+            <div>
+              <div class="file-icon blue">ZIP</div>
+              <h3>Supporting Files</h3>
+              <p>Google Drive Folder</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="team">
+      <div class="container">
+        <div class="section-title">
+          <h2>Project Team</h2>
+        </div>
+
+        <div class="team-grid">
+          <div class="member-card">
+            <div class="avatar">●</div>
+            <h3>Milton I. Garayúa</h3>
+            <p>Project Team Leader</p>
+          </div>
+
+          <div class="member-card">
+            <div class="avatar">●</div>
+            <h3>Ángel L. Morales Torres</h3>
+            <p>Team Member</p>
+          </div>
+
+          <div class="member-card">
+            <div class="avatar">●</div>
+            <h3>Giovanni Rivera Quiles</h3>
+            <p>Team Member</p>
+          </div>
+
+          <div class="member-card">
+            <div class="avatar">●</div>
+            <h3>Antonio Otero Rodríguez</h3>
+            <p>Team Member</p>
+          </div>
+
+          <div class="member-card">
+            <div class="avatar">●</div>
+            <h3>Yadiel E. Santiago Ruiz</h3>
+            <p>Team Member</p>
+          </div>
+        </div>
+
+        <div class="professor">
+          <strong>Professor:</strong> Asdrubal Morales<br />
+          <strong>Course:</strong> Electrical Engineering Capstone Design Course
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <strong>G177 Substation Design Project</strong>
+        Polytechnic University of Puerto Rico
+      </div>
+
+      <div>© 2026 All Rights Reserved.</div>
+    </div>
+  </footer>
+</body>
+</html>
